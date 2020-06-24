@@ -1,6 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:flutterstackapi/app/locator.dart';
 import 'package:flutterstackapi/helpers/shared_preferences.dart';
 import 'package:flutterstackapi/services/auth_service.dart';
@@ -14,55 +14,18 @@ class StartUpViewModel extends BaseViewModel {
   final DialogService _dialogService = locator<DialogService>();
   var _message, _userData;
 
-  Future signInWithEmail({String email, String password}) async {
-    setBusy(true);
-    var result = await _authService.signInAdmin(email, password);
-    setBusy(false);
-    if (result is Map<String, dynamic>) {
-      _message = result['data']['message'];
-      _userData = result['data']['userdata'];
-      if (_message == 'success') {
-        print(_message);
-        print(_userData);
+  bool get getUserlogin => _authService.getuserId != null;
 
-        _authService.setUserId(_userData['userId'].toString());
-        _authService.setUserName(_userData['UserName'].toString());
-        _authService.setUserDOB(_userData['userDOB'].toString());
-        _authService.setUserEmail(_userData['userEmail'].toString());
-        _authService.setuserNumber(_userData['userNumber'].toString());
-        notifyListeners();
-
-        final authData = json.encode({
-          "userId": _authService.getuserId,
-          "userEmail": _authService.getEmail,
-          "userName": _authService.getusername,
-          "userNumber": _authService.getNumber,
-          "userDOB": _authService.getUserDOB,
-          "userType": _authService.getUserType,
-        });
-        await SharedPref.init();
-        SharedPref.setAuthdata(authData);
+  void handleStartupLogin() {
+    Timer(Duration(seconds: 2), () async {
+      bool a = await _authService.autoLogin();
+      if (a) {
+        _navigationService.replaceWith(Routes.homeViewRoute);
       } else {
-        await _dialogService.showDialog(
-            title: 'Error Occured',
-            description: _message,
-            buttonTitle: 'OK',
-            dialogPlatform: DialogPlatform.Material,
-            barrierDismissible: false);
+        _navigationService.replaceWith(Routes.signInViewRoute);
       }
-
-//      navigateToSignUp();
-    } else {
-      await _dialogService.showDialog(
-          title: 'Error Occured', description: _message, buttonTitle: 'OK');
-    }
+    });
   }
 
-  void navigateToSignUp() async {
-    await _navigationService.navigateTo(Routes.signUpViewRoute);
-  }
 
-  void navigateToHome() async {
-    await _navigationService.navigateTo(Routes.homeViewRoute);
-  }
 }

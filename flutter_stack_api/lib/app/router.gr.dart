@@ -10,15 +10,21 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutterstackapi/ui/views/startup/startup_view.dart';
 import 'package:flutterstackapi/ui/views/signup/signup_view.dart';
 import 'package:flutterstackapi/ui/views/home/home_view.dart';
+import 'package:flutterstackapi/ui/views/signin/signin_view.dart';
+import 'package:flutterstackapi/ui/views/products/product_view.dart';
 
 abstract class Routes {
   static const startupViewRoute = '/';
   static const signUpViewRoute = '/sign-up-view-route';
   static const homeViewRoute = '/home-view-route';
+  static const signInViewRoute = '/sign-in-view-route';
+  static const productViewRoute = '/product-view-route';
   static const all = {
     startupViewRoute,
     signUpViewRoute,
     homeViewRoute,
+    signInViewRoute,
+    productViewRoute,
   };
 }
 
@@ -46,6 +52,16 @@ class Router extends RouterBase {
       case Routes.homeViewRoute:
         return MaterialPageRoute<dynamic>(
           builder: (context) => HomeView(),
+          settings: settings,
+        );
+      case Routes.signInViewRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => SignInView(),
+          settings: settings,
+        );
+      case Routes.productViewRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => ProductView(),
           settings: settings,
         );
       default:

@@ -117,29 +117,41 @@ class AuthService {
 //      SharedPref.setAuthdata(authData);
 
 //  Future<bool> autoLogin() async {
-//    await SharedPref.init();
-//    String abc = SharedPref.getAuthData();
-//    // if (abc == null || abc.isEmpty) {
-//    //   return false;
-//    // }
-//    final extractedData = json.decode(abc) as Map<String, Object>;
-//    if (extractedData == null || extractedData.isEmpty) {
-//      return false;
-//    }
-//
-//    _userId = extractedData['userId'];
-//    _userName = extractedData['userName'];
-//    _userEmail = extractedData['userEmail'];
-//    _userNumber = extractedData['userNumber'];
-//    _userDOB = extractedData['userDOB'];
-//    _userType = extractedData['userType'];
-//
-//    return true;
+//    return _userId != null;
 //  }
+
+  Future<bool> autoLogin() async {
+    await SharedPref.init();
+    String abc = SharedPref.getAuthData();
+    // if (abc == null || abc.isEmpty) {
+    //   return false;
+    // }
+    final extractedData = json.decode(abc) as Map<String, Object>;
+    if (extractedData == null || extractedData.isEmpty) {
+      return false;
+    }
+
+    _userId = extractedData['userId'];
+    _userName = extractedData['userName'];
+    _userEmail = extractedData['userEmail'];
+    _userNumber = extractedData['userNumber'];
+    _userDOB = extractedData['userDOB'];
+    _userType = extractedData['userType'];
+
+    return true;
+  }
+
 //
   Future logoutUser() async {
     await SharedPref.init();
     SharedPref.clearSharedPrefData();
+    _userId = null;
+    _userName = null;
+    _userEmail = null;
+    _userNumber = null;
+    _userDOB = null;
+    _userType = null;
+    dateTime = null;
     return true;
   }
 }
