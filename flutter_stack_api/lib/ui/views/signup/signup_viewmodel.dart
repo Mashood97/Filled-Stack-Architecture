@@ -19,47 +19,55 @@ class SignUpViewModel extends BaseViewModel {
       String password,
       String phonenumber,
       String dob}) async {
-    setBusy(true);
-    var result =
-        await _authService.signUpAdmin(name, email, password, phonenumber, dob);
-    setBusy(false);
-    if (result is Map<String, dynamic>) {
-      _message = result['data']['message'];
-      _userData = result['data']['userData'];
-      if (_message == 'Success') {
-        print(_message);
-        print(_userData);
-        _authService.setUserId(_userData['userId'].toString());
-        _authService.setUserName(_userData['UserName'].toString());
-        _authService.setUserDOB(_userData['DateOfBirth'].toString());
-        _authService.setUserEmail(_userData['Email'].toString());
-        _authService.setuserNumber(_userData['PhoneNumber'].toString());
-        _authService.setUserType(_userData['userType'].toString());
-        notifyListeners();
-        final authData = json.encode({
-          "userId": _authService.getuserId,
-          "userEmail": _authService.getEmail,
-          "userName": _authService.getusername,
-          "userNumber": _authService.getNumber,
-          "userDOB": _authService.getUserDOB,
-          "userType": _authService.getUserType,
-        });
-        await SharedPref.init();
-        SharedPref.setAuthdata(authData);
-      } else {
-        await _dialogService.showDialog(
-          title: 'Error Occured',
-          description: _message,
-          buttonTitle: 'OK',
-          dialogPlatform: DialogPlatform.Material,
-          barrierDismissible: false,
-        );
-      }
+    try {
+      setBusy(true);
+      var result = await _authService.signUpAdmin(
+          name, email, password, phonenumber, dob);
+      setBusy(false);
+      if (result is Map<String, dynamic>) {
+        _message = result['data']['message'];
+        _userData = result['data']['userData'];
+        if (_message == 'Success') {
+          print(_message);
+          print(_userData);
+          _authService.setUserId(_userData['userId'].toString());
+          _authService.setUserName(_userData['UserName'].toString());
+          _authService.setUserDOB(_userData['DateOfBirth'].toString());
+          _authService.setUserEmail(_userData['Email'].toString());
+          _authService.setuserNumber(_userData['PhoneNumber'].toString());
+          _authService.setUserType(_userData['userType'].toString());
+          notifyListeners();
+          final authData = json.encode({
+            "userId": _authService.getuserId,
+            "userEmail": _authService.getEmail,
+            "userName": _authService.getusername,
+            "userNumber": _authService.getNumber,
+            "userDOB": _authService.getUserDOB,
+            "userType": _authService.getUserType,
+          });
+          await SharedPref.init();
+          SharedPref.setAuthdata(authData);
+          navigateToHome();
+        } else {
+          await _dialogService.showDialog(
+            title: 'Error Occured',
+            description: _message,
+            buttonTitle: 'OK',
+            dialogPlatform: DialogPlatform.Material,
+            barrierDismissible: false,
+          );
+        }
 
 //      navigateToSignUp();
-    } else {
+      } else {
+        await _dialogService.showDialog(
+            title: 'Error Occured', description: _message, buttonTitle: 'OK');
+      }
+    } catch (e) {
       await _dialogService.showDialog(
-          title: 'Error Occured', description: _message, buttonTitle: 'OK');
+          title: 'Error Occured',
+          description: 'Can\t Authenticate You!',
+          buttonTitle: 'OK');
     }
   }
 

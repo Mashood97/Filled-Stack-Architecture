@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Hello, ${model.getUserName}',
+                            'Hello, ${model.getUserName}' ?? '',
                             style: Theme.of(context)
                                 .textTheme
                                 .headline6

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_isolate/flutter_isolate.dart';
 import 'package:flutterstackapi/ui/views/signin/signin_viewmodel.dart';
 import 'package:flutterstackapi/widgets/major_text_field.dart';
 import 'package:stacked/stacked.dart';
@@ -14,6 +17,9 @@ class _StartUpViewState extends State<SignInView> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _passwordFocusNode = FocusNode();
+
+  var _isLoading = false;
+
 
   @override
   void dispose() {
@@ -78,26 +84,34 @@ class _StartUpViewState extends State<SignInView> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                onPressed: () {
-                  try {
-                    if (_formKey.currentState.validate()) {
-                      model.signInWithEmail(
-                          email: _emailController.text.toString(),
-                          password: _passwordController.text.toString());
-                      model.navigateToHome();
-                    }
-                  } catch (e) {
-                    print(e);
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        if (_formKey.currentState.validate()) {
+                          await model.signInWithEmail(
+                              email: _emailController.text.toString(),
+                              password: _passwordController.text.toString());
+                        }
+//
 
-//                  model.showErrorDialog(context, e.toString());
-                  }
-                },
+                        setState(() {
+                          _isLoading = false;
+                        });
+                      },
                 splashColor: Colors.amber,
                 color: Theme.of(context).accentColor,
-                child: Text(
-                  'Login!',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
+                child: _isLoading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      )
+                    : Text(
+                        'Login!',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
               ),
             ),
           )
@@ -118,6 +132,7 @@ class _StartUpViewState extends State<SignInView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+//                    AnimationWidget(),
                     Container(
                       height: (MediaQuery.of(context).size.height -
                               MediaQuery.of(context).padding.top) *
@@ -128,7 +143,7 @@ class _StartUpViewState extends State<SignInView> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        margin:const EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
                         child: getCardFields(model, context),
                       ),
                     ),
@@ -164,3 +179,77 @@ class _StartUpViewState extends State<SignInView> {
     );
   }
 }
+
+
+
+
+
+//class AnimationWidget extends StatefulWidget {
+//  @override
+//  AnimationWidgetState createState() {
+//    return AnimationWidgetState();
+//  }
+//}
+//
+//class AnimationWidgetState extends State<AnimationWidget>
+//    with TickerProviderStateMixin {
+//  //
+//  AnimationController _animationController;
+//  Animation<BorderRadius> _borderRadius;
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    _animationController =
+//    AnimationController(duration: const Duration(seconds: 1), vsync: this)
+//      ..addStatusListener((status) {
+//        if (status == AnimationStatus.completed) {
+//          _animationController.reverse();
+//        } else if (status == AnimationStatus.dismissed) {
+//          _animationController.forward();
+//        }
+//      });
+//
+//    _borderRadius = BorderRadiusTween(
+//      begin: BorderRadius.circular(100.0),
+//      end: BorderRadius.circular(0.0),
+//    ).animate(CurvedAnimation(
+//      parent: _animationController,
+//      curve: Curves.bounceInOut,
+//    ));
+//
+//    _animationController.forward();
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return AnimatedBuilder(
+//      animation: _borderRadius,
+//      builder: (context, child) {
+//        return Center(
+//          child: Container(
+//            child: FlutterLogo(
+//              size: 200,
+//            ),
+//            alignment: Alignment.bottomCenter,
+//            width: 350,
+//            height: 200,
+//            decoration: BoxDecoration(
+//              gradient: LinearGradient(
+//                begin: Alignment.topLeft,
+//                colors: [Colors.blueAccent, Colors.redAccent],
+//              ),
+//              borderRadius: _borderRadius.value,
+//            ),
+//          ),
+//        );
+//      },
+//    );
+//  }
+//
+//  @override
+//  void dispose() {
+//    _animationController.dispose();
+//    super.dispose();
+//  }
+//}

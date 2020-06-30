@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutterstackapi/app/locator.dart';
 import 'package:flutterstackapi/helpers/shared_preferences.dart';
 import 'package:flutterstackapi/services/auth_service.dart';
@@ -14,53 +13,61 @@ class SignInViewModel extends BaseViewModel {
   final DialogService _dialogService = locator<DialogService>();
   var _message, _userData;
 
-
-
-
   Future signInWithEmail({String email, String password}) async {
-    setBusy(true);
-    var result = await _authService.signInAdmin(email, password);
-    setBusy(false);
-    if (result is Map<String, dynamic>) {
-      _message = result['data']['message'];
-      _userData = result['data']['userdata'];
-      if (_message == 'success') {
-        print(_message);
-        print(_userData);
+    try {
+      setBusy(true);
+      var result = await _authService.signInAdmin(email, password);
+      setBusy(false);
+      if (result is Map<String, dynamic>) {
+        _message = result['data']['message'];
+        _userData = result['data']['userdata'];
+        if (_message == 'success') {
+          print(_message);
+          print(_userData);
 
-        _authService.setUserId(_userData['userId'].toString());
-        _authService.setUserName(_userData['userName'].toString());
-        _authService.setUserDOB(_userData['userDOB'].toString());
-        _authService.setUserEmail(_userData['userEmail'].toString());
-        _authService.setuserNumber(_userData['userNumber'].toString());
-        _authService.setUserType(_userData['userType'].toString());
-        notifyListeners();
+          _authService.setUserId(_userData['userId'].toString());
+          _authService.setUserName(_userData['userName'].toString());
+          _authService.setUserDOB(_userData['userDOB'].toString());
+          _authService.setUserEmail(_userData['userEmail'].toString());
+          _authService.setuserNumber(_userData['userNumber'].toString());
+          _authService.setUserType(_userData['userType'].toString());
 
-        final authData = json.encode({
-          "userId": _authService.getuserId,
-          "userEmail": _authService.getEmail,
-          "userName": _authService.getusername,
-          "userNumber": _authService.getNumber,
-          "userDOB": _authService.getUserDOB,
-          "userType": _authService.getUserType,
-        });
-        await SharedPref.init();
-        SharedPref.setAuthdata(authData);
-        print('Shared Added');
-      } else {
-        await _dialogService.showDialog(
-            title: 'Error Occured',
-            description: _message,
-            buttonTitle: 'OK',
-            dialogPlatform: DialogPlatform.Material,
-            barrierDismissible: false);
-      }
+          final authData = json.encode({
+            "userId": _authService.getuserId,
+            "userEmail": _authService.getEmail,
+            "userName": _authService.getusername,
+            "userNumber": _authService.getNumber,
+            "userDOB": _authService.getUserDOB,
+            "userType": _authService.getUserType,
+          });
+          await SharedPref.init();
+          SharedPref.setAuthdata(authData);
+          print('Shared Added');
+          navigateToHome();
+        } else {
+          await _dialogService.showDialog(
+              title: 'Error Occured',
+              description: _message,
+              buttonTitle: 'OK',
+              dialogPlatform: DialogPlatform.Material,
+              barrierDismissible: false);
+        }
 
 //      navigateToSignUp();
-    } else {
-      await _dialogService.showDialog(
-          title: 'Error Occured', description: _message, buttonTitle: 'OK');
+      } else {
+        await _dialogService.showDialog(
+            title: 'Error Occured', description: _message, buttonTitle: 'OK');
+      }
+    } catch (e) {
+      _dialogService.showDialog(
+          title: 'Error Occured',
+          description: 'Can\'t Authenticate you!',
+          buttonTitle: 'OK',
+          dialogPlatform: DialogPlatform.Material,
+          barrierDismissible: false);
     }
+    notifyListeners();
+
   }
 
   void navigateToSignUp() async {
@@ -68,7 +75,7 @@ class SignInViewModel extends BaseViewModel {
   }
 
   void navigateToHome() async {
-    await _navigationService.replaceWith(Routes.homeViewRoute,arguments: {
+    await _navigationService.replaceWith(Routes.homeViewRoute, arguments: {
       'username': _authService.getusername,
       'userId': _authService.getuserId
     });

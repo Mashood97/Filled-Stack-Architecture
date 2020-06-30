@@ -12,6 +12,7 @@ import 'package:flutterstackapi/ui/views/signup/signup_view.dart';
 import 'package:flutterstackapi/ui/views/home/home_view.dart';
 import 'package:flutterstackapi/ui/views/signin/signin_view.dart';
 import 'package:flutterstackapi/ui/views/products/product_view.dart';
+import 'package:flutterstackapi/ui/views/AddOrEditProducts/add_edit_view.dart';
 
 abstract class Routes {
   static const startupViewRoute = '/';
@@ -19,12 +20,14 @@ abstract class Routes {
   static const homeViewRoute = '/home-view-route';
   static const signInViewRoute = '/sign-in-view-route';
   static const productViewRoute = '/product-view-route';
+  static const addEditProductViewRoute = '/add-edit-product-view-route';
   static const all = {
     startupViewRoute,
     signUpViewRoute,
     homeViewRoute,
     signInViewRoute,
     productViewRoute,
+    addEditProductViewRoute,
   };
 }
 
@@ -62,6 +65,11 @@ class Router extends RouterBase {
       case Routes.productViewRoute:
         return MaterialPageRoute<dynamic>(
           builder: (context) => ProductView(),
+          settings: settings,
+        );
+      case Routes.addEditProductViewRoute:
+        return MaterialPageRoute<dynamic>(
+          builder: (context) => AddEditProductView(),
           settings: settings,
         );
       default:

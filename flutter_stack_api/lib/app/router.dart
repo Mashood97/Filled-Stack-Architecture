@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route_annotations.dart';
+import 'package:flutterstackapi/ui/views/AddOrEditProducts/add_edit_view.dart';
 import 'package:flutterstackapi/ui/views/home/home_view.dart';
 import 'package:flutterstackapi/ui/views/products/product_view.dart';
 import 'package:flutterstackapi/ui/views/signin/signin_view.dart';
@@ -17,4 +18,6 @@ class $Router {
   SignInView signInViewRoute;
 
   ProductView productViewRoute;
+
+  AddEditProductView addEditProductViewRoute;
 }

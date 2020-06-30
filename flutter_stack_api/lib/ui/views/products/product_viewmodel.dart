@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutterstackapi/app/locator.dart';
+import 'package:flutterstackapi/app/router.gr.dart';
 import 'package:flutterstackapi/services/product_service.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
@@ -37,10 +38,12 @@ class ProductViewModel extends BaseViewModel {
           final find = x['productImage']
               .toString()
               .replaceAll(r'uploads\', 'http://192.168.1.105:3000/');
-          loadedProduct.insert(
-            0,
+
+          print(x['productId'].runtimeType);
+          loadedProduct.add(
             Product(
               productId: x['productId'],
+              // yahan print kr ke check kr is ki type
               productName: x['productName'],
               productDescription: x['productDescription'],
               productImage: find,
@@ -50,32 +53,44 @@ class ProductViewModel extends BaseViewModel {
             ),
           );
         }
+
+        _productList = loadedProduct;
       } else {
         await _dialogService.showDialog(
             title: 'Error', description: message, buttonTitle: 'OK');
       }
-      _productList = loadedProduct;
     } catch (e) {
-      throw e;
+      await _dialogService.showDialog(
+          title: 'Error', description: e.toString(), buttonTitle: 'OK');
     }
   }
 
-  Future deleteProductByProductId(var prodId) async {
-
-//    print(prodId);
-
-    final data = await _productService.deleteAProduct(1004);
-    print(data);
-//    final message = data['data']['message'].toString();
-//    print(message);
-//    if (message != 'Product Deleted Successfully') {
-//      await _dialogService.showDialog(
-//          title: 'Error', description: message, buttonTitle: 'OK');
-//    } else {
-//      await _dialogService.showDialog(
-//          title: 'Success', description: message, buttonTitle: 'OK');
-//    }
-//
+  Future<void> deleteProductByProductId(int prodId) async {
+    try {
+      final result =
+          await _productService.deleteAProduct(prodId) as Map<String, dynamic>;
+      //run
+      final message = result['data']['message'];
+      if (message != 'Product Deleted Successfully') {
+        await _dialogService.showDialog(
+            title: 'Error', description: message, buttonTitle: 'OK');
+      } else {
+        await _dialogService.showDialog(
+            title: 'Success', description: message, buttonTitle: 'OK');
+        navigateToHome();
+      }
+    } catch (e) {
+      await _dialogService.showDialog(
+          title: 'Success', description: 'An Error Occured', buttonTitle: 'OK');
+    }
 //    notifyListeners();
+  }
+
+  void navigateToAddEditProduct() async {
+    await _navigationService.navigateTo(Routes.addEditProductViewRoute);
+  }
+
+  void navigateToHome() async {
+    await _navigationService.navigateTo(Routes.homeViewRoute);
   }
 }

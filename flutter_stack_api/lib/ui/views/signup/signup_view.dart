@@ -29,6 +29,8 @@ class _SignUpViewState extends State<SignUpView> {
 
   final userNumberFocusNode = FocusNode();
 
+  var _isLoading = false;
+
   Widget _getCardFields(var model) {
     return SingleChildScrollView(
       child: Column(
@@ -138,27 +140,40 @@ class _SignUpViewState extends State<SignUpView> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                onPressed: () {
-                  try {
-                    if (_formKey.currentState.validate()) {
-                      model.signUpUser(
-                        name: userNameController.text.toString(),
-                        email: userEmailController.text.toString(),
-                        password: userPasswordController.text.toString(),
-                        phonenumber: userNumberController.text.toString(),
-                        dob: userDOBController.text.toString(),
-                      ).then((_)=>model.navigateToHome());
-                    }
-                  } catch (e) {
-                    print(e);
-                  }
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
+                        try {
+                          if (_formKey.currentState.validate()) {
+                            await model.signUpUser(
+                              name: userNameController.text.toString(),
+                              email: userEmailController.text.toString(),
+                              password: userPasswordController.text.toString(),
+                              phonenumber: userNumberController.text.toString(),
+                              dob: userDOBController.text.toString(),
+                            );
+                          }
+                          setState(() {
+                            _isLoading = true;
+                          });
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
                 splashColor: Colors.amber,
                 color: Theme.of(context).accentColor,
-                child: Text(
-                  'Register',
-                  style: Theme.of(context).textTheme.headline6,
-                ),
+                child: _isLoading
+                    ? CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                        backgroundColor: Theme.of(context).primaryColor,
+                      )
+                    : Text(
+                        'Register',
+                        style: Theme.of(context).textTheme.headline6,
+                      ),
               ),
             ),
           )

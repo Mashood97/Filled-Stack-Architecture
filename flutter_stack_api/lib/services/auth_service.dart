@@ -70,7 +70,7 @@ class AuthService {
       final responseData = json.decode(response.body) as Map<String, dynamic>;
       return responseData;
     } catch (e) {
-      return e.message;
+      throw e.message;
     }
   }
 
@@ -87,7 +87,7 @@ class AuthService {
       final responseData = json.decode(response.body) as Map<String, dynamic>;
       return responseData;
     } catch (e) {
-      return e.message;
+      throw e.message;
     }
   }
 

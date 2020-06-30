@@ -33,6 +33,12 @@ dependencies:
   shared_preferences:
   image_picker: ^0.6.7+2
   http_parser:
+  #isolate package:
+  flutter_isolate: ^1.0.0+14
+  flutter_startup: ^0.0.2
+#  flutter_absolute_path: ^1.0.6
+#  path_provider: ^1.6.11
+  path_provider:
   #state management:
   stacked: ^1.2.2
   #navigation:
