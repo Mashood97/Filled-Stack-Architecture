@@ -86,11 +86,22 @@ class ProductViewModel extends BaseViewModel {
 //    notifyListeners();
   }
 
+
+
   void navigateToAddEditProduct() async {
     await _navigationService.navigateTo(Routes.addEditProductViewRoute);
+  }
+
+  void navigateToAddEditProductwithArgs(int prodId) async {
+    await _navigationService.navigateTo(Routes.addEditProductViewRoute,
+        arguments: prodId);
   }
 
   void navigateToHome() async {
     await _navigationService.navigateTo(Routes.homeViewRoute);
   }
 }
+
+//        _navigationService.navigateTo(Routes.addEditProductViewRoute,arguments:{
+//            'productID'
+//        });

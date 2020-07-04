@@ -20,7 +20,7 @@ class Product {
       {this.productId,
       @required this.productName,
       @required this.productDescription,
-      @required this.productImage,
+       this.productImage,
       @required this.productPrice,
       @required this.productType,
       @required this.stockQuantity});
@@ -49,15 +49,11 @@ class ProductService {
     try {
       final response = await http.get(CommonAPI.getProductUrl);
       final responseData = json.decode(response.body) as Map<String, dynamic>;
-
       return responseData;
     } catch (e) {
       throw e;
     }
   }
-
-
-
 
   Future addProduct(Product product) async {
     try {
@@ -80,22 +76,45 @@ class ProductService {
     }
   }
 
-// code tw sai ha yahan pe viewmodel me ja is ke
-// un comment
-
   Future deleteAProduct(int prodId) async {
     try {
-      final response = await http.delete('${CommonAPI.deleteProductUrl}/$prodId',
-//        body: {
-//        'productId': prodId.toString()
-//      },
-      ); // masla idhr hee hai jaani han yar
-
-
-      // view model me bhi try catch laga
+      final response = await http.delete(
+        '${CommonAPI.deleteProductUrl}/$prodId',
+      );
       final responseData = json.decode(response.body) as Map<String, dynamic>;
-
       print('Response DATA      $responseData');
+      return responseData;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future updateAProduct(int prodId, Product product) async {
+    try {
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('${CommonAPI.updateProductUrl}/$prodId'));
+      request.fields['productName'] = product.productName;
+      request.fields['productDescription'] = product.productDescription;
+      request.files.add(await http.MultipartFile.fromPath(
+          'productImage', product.productImage.path,
+          contentType: new MediaType('image', 'jpeg')));
+      request.fields['productType'] = product.productType;
+      request.fields['productPrice'] = product.productPrice;
+      request.fields['StockQuantity'] = product.stockQuantity;
+      request.fields['createdProductDatetime'] = _dateTime.toString();
+
+      var res = await request.send();
+      return res.reasonPhrase;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future getProductByID(int productId) async {
+    try {
+      final response = await http.get('${CommonAPI.getProductByIdUrl}/$productId');
+      final responseData = json.decode(response.body) as Map<String, dynamic>;
+      print('Response data $responseData');
       return responseData;
     } catch (e) {
       throw e;

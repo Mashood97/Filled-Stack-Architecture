@@ -11,12 +11,17 @@ class MajorTextField extends StatelessWidget {
   final validator;
   final inputAction;
   final maxLines;
+  final String initValues;
+  final Function onSaved;
+
   MajorTextField(
-      {@required this.titleLabel,
+      {this.onSaved,
+      this.initValues,
+      @required this.titleLabel,
       @required this.maxLength,
       @required this.icon,
       @required this.validator,
-      @required this.controller,
+       this.controller,
       @required this.inputAction,
       this.focusnode,
       this.maxLines,
@@ -28,8 +33,10 @@ class MajorTextField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: TextFormField(
+        initialValue: initValues,
         maxLength: maxLength,
         controller: controller,
+        onSaved: onSaved,
         keyboardType: inputType,
         validator: validator,
         textInputAction: inputAction,

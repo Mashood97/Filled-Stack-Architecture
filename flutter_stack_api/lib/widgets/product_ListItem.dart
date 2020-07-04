@@ -5,6 +5,7 @@ class ProductListItem extends StatelessWidget {
   final String imageUrl;
   final String description;
   final deleteProduct;
+  final nextScreenProduct;
   final int prodId;
 
 //  final data;
@@ -15,6 +16,7 @@ class ProductListItem extends StatelessWidget {
       {this.title,
       this.imageUrl,
       this.description,
+      this.nextScreenProduct,
       this.deleteProduct,
       this.prodId});
 
@@ -73,7 +75,7 @@ class ProductListItem extends StatelessWidget {
                         color: Colors.green,
                       ),
                       splashColor: Theme.of(context).accentColor,
-                      onPressed: () {},
+                      onPressed: () => nextScreenProduct(prodId),
                     ),
                     IconButton(
                       icon: Icon(

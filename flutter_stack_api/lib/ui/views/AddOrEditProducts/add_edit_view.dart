@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterstackapi/services/product_service.dart';
@@ -39,11 +38,6 @@ class _AddEditProductState extends State<AddEditProductView> {
                 radius: 30,
                 backgroundImage: FileImage(provData.getImage),
               ),
-//
-//        CircleAvatar(
-//                backgroundImage: MemoryImage(),
-//                radius: 30,
-//              ),
         SizedBox(
           height: 5,
         ),
@@ -167,22 +161,41 @@ class _AddEditProductState extends State<AddEditProductView> {
                       setState(() {
                         _isLoading = true;
                       });
-                      await provData.addProduct(
-                        Product(
-                          productName: _productNameController.text.toString(),
-                          productDescription:
-                              _productDescriptionController.text.toString(),
-                          productImage: provData.getImage,
-                          productType: _productTypeController.text.toString(),
-                          productPrice: _productPriceController.text.toString(),
-                          stockQuantity:
-                              _productQuantityController.text.toString(),
-                        ),
-                      );
+                      if (provData.productId == null) {
+                        await provData.addProduct(
+                          Product(
+                            productName: _productNameController.text.toString(),
+                            productDescription:
+                                _productDescriptionController.text.toString(),
+                            productImage: provData.getImage,
+                            productType: _productTypeController.text.toString(),
+                            productPrice:
+                                _productPriceController.text.toString(),
+                            stockQuantity:
+                                _productQuantityController.text.toString(),
+                          ),
+                        );
+                      } else {
+                        await provData.updateProuct(
+                          provData.productId,
+                          Product(
+                            productName: _productNameController.text.toString(),
+                            productDescription:
+                                _productDescriptionController.text.toString(),
+                            productImage: provData.getImage,
+                            productType: _productTypeController.text.toString(),
+                            productPrice:
+                                _productPriceController.text.toString(),
+                            stockQuantity:
+                                _productQuantityController.text.toString(),
+                          ),
+                        );
+                      }
+
                       setState(() {
                         _isLoading = false;
                       });
-                      Navigator.pop(context);
+                      provData.navigateToProductViewScreen();
                     },
             ),
           ),
@@ -208,6 +221,18 @@ class _AddEditProductState extends State<AddEditProductView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddEditViewModel>.reactive(
+        onModelReady: (model) async {
+          await model.getSingleProduct(
+            context,
+          );
+          if (model.productId != null) {
+            _productNameController.text = model.prodName;
+            _productDescriptionController.text = model.prodDescp;
+            _productTypeController.text = model.prodType;
+            _productPriceController.text = model.prodPrice;
+            _productQuantityController.text = model.prodStockQuantity;
+          }
+        },
         builder: (ctx, model, child) => Scaffold(
               body: SafeArea(
                 child: Form(

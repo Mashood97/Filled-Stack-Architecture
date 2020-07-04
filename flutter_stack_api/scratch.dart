@@ -13,8 +13,8 @@ main() {
 
   Timer(
     Duration(milliseconds: 100),
-      ()=>Isolate.spawn(SignInUser, {'email': 'mashood@gmail.com','password':'Sodium97'}));
-  Isolate.spawn(SignInUser, {'email': 'mashood@gmail.com','password':'Sodium97'});
+      ()=>Isolate.spawn(signInUser, {'email': 'mashood@gmail.com','password':'Sodium97'}));
+  Isolate.spawn(signInUser, {'email': 'mashood@gmail.com','password':'Sodium97'});
 
       print('end');
 }
@@ -23,7 +23,7 @@ demo1(Map<String, String> map) {
   print('Hello ${map['name']}');
 }
 
-SignInUser(Map<String, dynamic> signInMap) async {
+signInUser(Map<String, dynamic> signInMap) async {
   const String signIn = 'http://192.168.1.105:3000/adminAuth/signIn';
   var result = await http.post(signIn, headers: {
     "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
