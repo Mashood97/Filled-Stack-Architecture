@@ -218,6 +218,8 @@ class _AddEditProductState extends State<AddEditProductView> {
     _prodQuantityfocusNode.dispose();
   }
 
+  var _isLoadingData = false;
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<AddEditViewModel>.reactive(
@@ -225,6 +227,7 @@ class _AddEditProductState extends State<AddEditProductView> {
           await model.getSingleProduct(
             context,
           );
+
           if (model.productId != null) {
             _productNameController.text = model.prodName;
             _productDescriptionController.text = model.prodDescp;
@@ -234,7 +237,11 @@ class _AddEditProductState extends State<AddEditProductView> {
           }
         },
         builder: (ctx, model, child) => Scaffold(
-              body: SafeArea(
+              body: model.isBusy ? Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+              ):SafeArea(
                 child: Form(
                   key: _formKey,
                   child: Center(

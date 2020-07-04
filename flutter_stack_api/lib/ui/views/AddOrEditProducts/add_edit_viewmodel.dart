@@ -104,6 +104,7 @@ class AddEditViewModel extends BaseViewModel {
 
   Future getSingleProduct(var context) async {
     try {
+      setBusy(true);
       final route = ModalRoute.of(context).settings.arguments as int;
       _productId = route;
       if (_productId != null) {
@@ -140,6 +141,7 @@ class AddEditViewModel extends BaseViewModel {
         _prodPrice = '';
         _prodStockQuantity = '';
       }
+      setBusy(false);
       notifyListeners();
     } catch (e) {
       await _dialogService.showDialog(
