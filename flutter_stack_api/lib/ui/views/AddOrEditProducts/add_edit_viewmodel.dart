@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutterstackapi/app/locator.dart';
 import 'package:flutterstackapi/app/router.gr.dart';
 import 'package:flutterstackapi/services/product_service.dart';
@@ -65,7 +66,7 @@ class AddEditViewModel extends BaseViewModel {
   }
 
   Future addImage() async {
-    pickedFile = await picker.getImage(source: ImageSource.gallery);
+    pickedFile = await picker.getImage(source: ImageSource.camera);
     if (pickedFile != null) {
       _image = null;
       _image = File(pickedFile.path);
