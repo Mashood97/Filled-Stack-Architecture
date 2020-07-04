@@ -8,6 +8,7 @@ import 'package:flutterstackapi/services/register_all_services.dart';
 import 'package:flutterstackapi/services/auth_service.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:flutterstackapi/services/product_service.dart';
+import 'package:flutterstackapi/services/user_service.dart';
 import 'package:get_it/get_it.dart';
 
 void $initGetIt(GetIt g, {String environment}) {
@@ -19,6 +20,7 @@ void $initGetIt(GetIt g, {String environment}) {
       () => registerAllServices.navigationService);
   g.registerLazySingleton<ProductService>(
       () => registerAllServices.productService);
+  g.registerLazySingleton<UserService>(() => registerAllServices.userService);
 }
 
 class _$RegisterAllServices extends RegisterAllServices {
@@ -30,4 +32,6 @@ class _$RegisterAllServices extends RegisterAllServices {
   NavigationService get navigationService => NavigationService();
   @override
   ProductService get productService => ProductService();
+  @override
+  UserService get userService => UserService();
 }

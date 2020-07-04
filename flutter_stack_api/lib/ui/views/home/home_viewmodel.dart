@@ -24,7 +24,13 @@ class HomeViewModel extends BaseViewModel {
         navigatetoProductView();
       },
     },
-    {'title': 'Manage Users', 'icon': Icons.person_pin, 'function': () {}}
+    {
+      'title': 'Manage Users',
+      'icon': Icons.person_pin,
+      'function': () {
+        navigateToUserView();
+      },
+    },
   ];
 
   Future logoutTheUser() async {
@@ -50,5 +56,9 @@ class HomeViewModel extends BaseViewModel {
 
   static void navigatetoProductView() async {
     await _navigationService.navigateTo(Routes.productViewRoute);
+  }
+
+  static void navigateToUserView() async {
+    await _navigationService.navigateTo(Routes.userView);
   }
 }

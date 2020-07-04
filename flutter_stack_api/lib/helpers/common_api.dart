@@ -7,5 +7,5 @@ class CommonAPI {
   static const String getProductByIdUrl = _baseUrl + 'product';
   static const String updateProductUrl = _baseUrl + 'product';
   static const String deleteProductUrl = _baseUrl + 'product';
-
+  static const String getAllusers = _baseUrl + 'user';
 }

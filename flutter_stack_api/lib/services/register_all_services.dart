@@ -1,4 +1,5 @@
 import 'package:flutterstackapi/services/product_service.dart';
+import 'package:flutterstackapi/services/user_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -17,4 +18,7 @@ abstract class RegisterAllServices {
 
   @lazySingleton
   ProductService get productService;
+
+  @lazySingleton
+  UserService get userService;
 }
