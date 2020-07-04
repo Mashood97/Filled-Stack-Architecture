@@ -21,16 +21,13 @@ class StartUpViewModel extends BaseViewModel {
     try {
       PermissionHandler permissionHandler = PermissionHandler();
 
-//    var permissions = [
-//      PermissionGroup.camera,
-//      PermissionGroup.storage,
-//    ];
+
       var permission = await permissionHandler
           .checkPermissionStatus(PermissionGroup.storage);
       permission =
           await permissionHandler.checkPermissionStatus(PermissionGroup.camera);
 
-//    var permission = PermissionStatus.unknown;
+
 
       if (permission == PermissionStatus.granted) {
         Timer(Duration(seconds: 2), () async {
@@ -51,11 +48,10 @@ class StartUpViewModel extends BaseViewModel {
       }
     } catch (e) {
       _dialogService.showDialog(
-        title:'Error',
-        buttonTitle: 'OK',
-        dialogPlatform: DialogPlatform.Material,
-        description: 'An Error Occured'
-      );
+          title: 'Error',
+          buttonTitle: 'OK',
+          dialogPlatform: DialogPlatform.Material,
+          description: 'An Error Occured');
     }
   }
 }
