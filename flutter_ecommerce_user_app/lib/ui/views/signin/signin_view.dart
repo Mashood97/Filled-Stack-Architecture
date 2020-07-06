@@ -26,7 +26,7 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SignInViewModel>.reactive(
-        builder: (ctx, child, model) => Scaffold(
+        builder: (ctx, model, child) => Scaffold(
               body: SafeArea(
                 child: Center(
                   child: SingleChildScrollView(
@@ -90,7 +90,11 @@ class _SignInViewState extends State<SignInView> {
                                 shape: StadiumBorder(),
                                 splashColor: Theme.of(context).primaryColor,
                                 color: Theme.of(context).accentColor,
-                                onPressed: () {},
+                                onPressed: () {
+                                  model.signInUser(
+                                      _emailController.text.toString(),
+                                      _passwordController.text.toString());
+                                },
                                 child: Text(
                                   'Login',
                                   style: Theme.of(context).textTheme.headline6,
