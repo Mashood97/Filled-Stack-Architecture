@@ -68,7 +68,6 @@ class _SignInViewState extends State<SignInView> {
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
-
                                 shape: StadiumBorder(),
                                 color: Theme.of(context).accentColor,
                                 onPressed: () {},
@@ -78,6 +77,21 @@ class _SignInViewState extends State<SignInView> {
                                 ),
                               ),
                             ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: FlatButton(
+                              color: Colors.white,
+                              shape: StadiumBorder(),
+                              splashColor: Theme.of(context).accentColor,
+                              child: Text(
+                                'Register Now',
+                                style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 16),
+                              ),
+                              onPressed: (){},
+                            ),
+
+
                           )
                         ],
                       ),
