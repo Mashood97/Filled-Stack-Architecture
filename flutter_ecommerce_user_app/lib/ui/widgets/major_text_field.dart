@@ -11,6 +11,7 @@ class MajorTextField extends StatelessWidget {
   final validator;
   final inputAction;
   final maxLines;
+  final obsecureText;
   final String initValues;
   final Function onSaved;
 
@@ -21,10 +22,11 @@ class MajorTextField extends StatelessWidget {
       @required this.maxLength,
       @required this.icon,
       @required this.validator,
-       this.controller,
+      this.controller,
       @required this.inputAction,
       this.focusnode,
       this.maxLines,
+      this.obsecureText = false,
       this.fieldSubmit,
       @required this.inputType});
 
@@ -39,6 +41,7 @@ class MajorTextField extends StatelessWidget {
         onSaved: onSaved,
         keyboardType: inputType,
         validator: validator,
+        obscureText: obsecureText,
         textInputAction: inputAction,
         onFieldSubmitted: fieldSubmit,
         maxLines: maxLines,
