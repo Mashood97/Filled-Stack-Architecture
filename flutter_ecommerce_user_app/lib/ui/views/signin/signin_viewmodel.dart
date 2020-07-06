@@ -35,7 +35,7 @@ class SignInViewModel extends BaseViewModel {
             createdDateTime: responseData['createdDateTime'],
           ),
         );
-        _userList = _loadedUser;
+          _userList = _loadedUser;
         navigateToHome();
       } else {
         await _dialogService.showDialog(
