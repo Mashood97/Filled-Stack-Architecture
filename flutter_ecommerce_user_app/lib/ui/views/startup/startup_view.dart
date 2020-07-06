@@ -22,13 +22,13 @@ class _StartUState extends State<StartUpView>
       image: Center(child: Image.asset('assets/images/1.jpg')),
       decoration: PageDecoration(
         imagePadding: EdgeInsets.all(15),
-        titleTextStyle: GoogleFonts.raleway(
+        titleTextStyle: GoogleFonts.oswald(
           color: Colors.black,
           fontWeight: FontWeight.w700,
           fontSize: 20,
           letterSpacing: 0.6,
         ),
-        bodyTextStyle: GoogleFonts.oswald(
+        bodyTextStyle: GoogleFonts.raleway(
           color: Colors.black,
           fontWeight: FontWeight.w700,
           fontSize: 20,
@@ -42,13 +42,13 @@ class _StartUState extends State<StartUpView>
       image: Image.asset('assets/images/2.jpg'),
       decoration: PageDecoration(
         imagePadding: EdgeInsets.all(15),
-        titleTextStyle: GoogleFonts.raleway(
+        titleTextStyle: GoogleFonts.oswald(
           color: Colors.black,
           fontWeight: FontWeight.w700,
           fontSize: 20,
           letterSpacing: 0.6,
         ),
-        bodyTextStyle: GoogleFonts.oswald(
+        bodyTextStyle: GoogleFonts.raleway(
           color: Colors.black,
           fontWeight: FontWeight.w700,
           fontSize: 20,
@@ -67,6 +67,9 @@ class _StartUState extends State<StartUpView>
     _animation = ColorTween(begin: Color(0xFF371741), end: Colors.redAccent)
         .animate(_animationController);
 
+    _animationController.addListener(() {
+      setState(() {});
+    });
     _animationController.forward();
     _animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -75,15 +78,12 @@ class _StartUState extends State<StartUpView>
         _animationController.forward();
       }
     });
-    _animationController.addListener(() {
-      setState(() {});
-    });
   }
 
   @override
   void dispose() {
-    super.dispose();
     _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -91,6 +91,14 @@ class _StartUState extends State<StartUpView>
     return ViewModelBuilder<StartUpViewModel>.reactive(
         builder: (ctx, model, child) => Scaffold(
               body: IntroductionScreen(
+                dotsDecorator: DotsDecorator(
+                  size: const Size.square(10.0),
+                  activeSize: const Size(20.0, 10.0),
+                  activeShape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25.0)),
+                  color: _animation.value,
+                  activeColor: Theme.of(context).accentColor,
+                ),
                 done: FlatButton(
                   color: _animation.value,
                   textColor: Colors.white,
@@ -109,16 +117,22 @@ class _StartUState extends State<StartUpView>
                       SizedBox(
                         width: 5,
                       ),
-                      const Text(
+                      Text(
                         "Explore",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 25),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline6
+                            .copyWith(fontSize: 22),
                       ),
                     ],
                   )),
-                  onPressed: () {},
+                  onPressed: () {
+                    model.gotoSignIn();
+                  },
                 ),
-                onDone: () {},
+                onDone: () {
+                  model.gotoSignIn();
+                },
                 pages: _pages,
                 animationDuration: 1000,
                 curve: Curves.bounceInOut,

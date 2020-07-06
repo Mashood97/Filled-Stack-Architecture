@@ -1,6 +1,7 @@
-
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
+
+import 'auth_services.dart';
 
 @registerModule
 abstract class RegisterAllServices {
@@ -10,4 +11,6 @@ abstract class RegisterAllServices {
   @lazySingleton
   DialogService get dialogService;
 
+  @lazySingleton
+  AuthService get authService;
 }
