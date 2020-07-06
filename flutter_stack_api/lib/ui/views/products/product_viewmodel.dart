@@ -98,7 +98,3 @@ class ProductViewModel extends BaseViewModel {
     await _navigationService.navigateTo(Routes.homeViewRoute);
   }
 }
-
-//        _navigationService.navigateTo(Routes.addEditProductViewRoute,arguments:{
-//            'productID'
-//        });

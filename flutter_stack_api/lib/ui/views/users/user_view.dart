@@ -11,18 +11,7 @@ class UserView extends StatelessWidget {
       builder: (ctx, model, child) => Scaffold(
         appBar: AppBar(
           title: Text('Manage Users'),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-              onPressed: () {
-//                model.navigateToAddEditProduct();
-              },
-              splashColor: Theme.of(context).accentColor,
-            ),
-          ],
+
         ),
         body: SafeArea(
           child: SafeArea(
