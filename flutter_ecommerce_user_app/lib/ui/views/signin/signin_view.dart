@@ -11,6 +11,18 @@ class SignInView extends StatefulWidget {
 class _SignInViewState extends State<SignInView> {
   final _key = GlobalKey<FormState>();
 
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordFocusNode.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SignInViewModel>.reactive(
@@ -39,8 +51,13 @@ class _SignInViewState extends State<SignInView> {
                             inputType: TextInputType.emailAddress,
                             maxLength: 50,
                             inputAction: TextInputAction.next,
+                            controller: _emailController,
                             titleLabel: 'Enter Your E-mail',
                             maxLines: 1,
+                            fieldSubmit: (_) {
+                              FocusScope.of(context)
+                                  .requestFocus(_passwordFocusNode);
+                            },
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please Enter E-mail.';
@@ -53,8 +70,10 @@ class _SignInViewState extends State<SignInView> {
                             inputType: TextInputType.text,
                             maxLength: 30,
                             obsecureText: true,
+                            focusnode: _passwordFocusNode,
                             inputAction: TextInputAction.done,
                             titleLabel: 'Enter Your Password',
+                            controller: _passwordController,
                             maxLines: 1,
                             validator: (value) {
                               if (value.isEmpty) {
@@ -69,6 +88,7 @@ class _SignInViewState extends State<SignInView> {
                               padding: const EdgeInsets.all(8.0),
                               child: RaisedButton(
                                 shape: StadiumBorder(),
+                                splashColor: Theme.of(context).primaryColor,
                                 color: Theme.of(context).accentColor,
                                 onPressed: () {},
                                 child: Text(
@@ -83,15 +103,17 @@ class _SignInViewState extends State<SignInView> {
                             child: FlatButton(
                               color: Colors.white,
                               shape: StadiumBorder(),
+                              hoverColor: Theme.of(context).primaryColor,
                               splashColor: Theme.of(context).accentColor,
                               child: Text(
                                 'Register Now',
-                                style: Theme.of(context).textTheme.headline4.copyWith(fontSize: 16),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline4
+                                    .copyWith(fontSize: 16),
                               ),
-                              onPressed: (){},
+                              onPressed: () {},
                             ),
-
-
                           )
                         ],
                       ),
