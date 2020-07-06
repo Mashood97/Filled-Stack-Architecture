@@ -6,7 +6,9 @@ class SignInView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SignInViewModel>.reactive(
-        builder: (ctx, child, model) => Scaffold(),
+        builder: (ctx, child, model) => Scaffold(
+
+        ),
         viewModelBuilder: () => SignInViewModel());
   }
 }
