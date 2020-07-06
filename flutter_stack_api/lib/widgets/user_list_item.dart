@@ -3,8 +3,9 @@ import 'package:flutterstackapi/ui/views/users/user_viewmodel.dart';
 
 class UserListItem extends StatelessWidget {
   final User userData;
+  final deleteUser;
 
-  UserListItem(this.userData);
+  UserListItem(this.userData, this.deleteUser);
 
   @override
   Widget build(BuildContext context) {
@@ -16,26 +17,13 @@ class UserListItem extends StatelessWidget {
           child: FittedBox(child: Text(userData.userId.toString())),
         ),
         subtitle: Text(userData.userType),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(
-              splashColor: Colors.green,
-              icon: Icon(
-                Icons.edit,
-                color: Colors.green,
-              ),
-              onPressed: () {},
-            ),
-            IconButton(
-              splashColor: Colors.red,
-              icon: Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-              onPressed: () {},
-            ),
-          ],
+        trailing: IconButton(
+          splashColor: Colors.red,
+          icon: Icon(
+            Icons.delete,
+            color: Colors.red,
+          ),
+          onPressed: ()=>deleteUser(userData.userId),
         ),
       ),
     );

@@ -44,6 +44,7 @@ class UserView extends StatelessWidget {
                           int userId = model.getUserList[index].userId;
                           return UserListItem(
                             model.getUserList[index],
+                            model.deleteSingleUser,
                           );
                         },
                         separatorBuilder: (ctx, index) => Divider(),

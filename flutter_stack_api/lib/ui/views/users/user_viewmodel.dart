@@ -3,6 +3,8 @@ import 'package:flutterstackapi/services/user_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../../../app/router.gr.dart';
+
 class User {
   int userId;
   String userEmail;
@@ -38,7 +40,6 @@ class UserViewModel extends BaseViewModel {
       final responseData = response['data']['userData'];
       final List<User> loadedUser = [];
       if (message == 'All User Retrieved') {
-
         for (var userdata in responseData) {
           loadedUser.add(
             User(
@@ -69,5 +70,36 @@ class UserViewModel extends BaseViewModel {
           dialogPlatform: DialogPlatform.Material,
           buttonTitle: 'OK!');
     }
+  }
+
+  Future deleteSingleUser(int userId) async {
+    try {
+      final response = await _userService.deleteUserById(userId);
+      final message = response['data']['message'];
+      if (message == 'User Deleted Successfully') {
+        await _dialogService.showDialog(
+            title: 'SUCCESS',
+            description: message,
+            dialogPlatform: DialogPlatform.Material,
+            buttonTitle: 'OK!');
+        navigateToHome();
+      } else {
+        await _dialogService.showDialog(
+            title: 'ERROR',
+            description: message,
+            dialogPlatform: DialogPlatform.Material,
+            buttonTitle: 'OK!');
+      }
+    } catch (e) {
+      await _dialogService.showDialog(
+          title: 'ERROR',
+          description: 'AN UNKNOWN ERROR OCCURED',
+          dialogPlatform: DialogPlatform.Material,
+          buttonTitle: 'OK!');
+    }
+  }
+
+  void navigateToHome() async {
+    await _navigationService.navigateTo(Routes.homeViewRoute);
   }
 }
