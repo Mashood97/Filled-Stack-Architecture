@@ -27,14 +27,12 @@ class Product {
 }
 
 class ProductService {
-  List<Product> _productList = [];
+
   DateTime _dateTime = DateTime.now();
   File _image;
   final picker = ImagePicker();
 
-  List<Product> get getProductList => [..._productList];
 
-  int get getProductListLength => _productList.length;
 
   File get getImage => _image;
 

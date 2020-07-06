@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutterstackapi/services/product_service.dart';
 
 class ProductListItem extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final String description;
   final deleteProduct;
   final nextScreenProduct;
-  final int prodId;
+  final Product productData;
 
 //  final data;
 //  final a;
 //  ProductListItem(this.data,this.a);
   //
-  ProductListItem(
-      {this.title,
-      this.imageUrl,
-      this.description,
-      this.nextScreenProduct,
-      this.deleteProduct,
-      this.prodId});
+  ProductListItem({
+    this.productData,
+    this.nextScreenProduct,
+    this.deleteProduct,
+  });
 
   //title: model.getProductList[index].productName,
   //                            description:
@@ -39,7 +35,7 @@ class ProductListItem extends StatelessWidget {
 //              ),
   @override
   Widget build(BuildContext context) {
-    return prodId == null
+    return productData.productId == null
         ? Center(
             child: Text('No Product Found'),
           )
@@ -50,21 +46,21 @@ class ProductListItem extends StatelessWidget {
               shadowColor: Colors.black,
               child: ListTile(
                 title: Text(
-                  title,
+                  productData.productName,
                   style: Theme.of(context)
                       .textTheme
                       .headline6
                       .copyWith(color: Colors.black),
                 ),
                 subtitle: Text(
-                  description,
+                  productData.productDescription,
                   style: Theme.of(context)
                       .textTheme
                       .headline6
                       .copyWith(color: Colors.black),
                 ),
                 leading: CircleAvatar(
-                  backgroundImage: NetworkImage(imageUrl),
+                  backgroundImage: NetworkImage(productData.productImage),
                 ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -75,7 +71,7 @@ class ProductListItem extends StatelessWidget {
                         color: Colors.green,
                       ),
                       splashColor: Theme.of(context).accentColor,
-                      onPressed: () => nextScreenProduct(prodId),
+                      onPressed: () => nextScreenProduct(productData.productId),
                     ),
                     IconButton(
                       icon: Icon(
@@ -83,7 +79,7 @@ class ProductListItem extends StatelessWidget {
                         color: Theme.of(context).primaryColor,
                       ),
                       splashColor: Theme.of(context).accentColor,
-                      onPressed: () => deleteProduct(prodId),
+                      onPressed: () => deleteProduct(productData.productId),
                     ),
                   ],
                 ),

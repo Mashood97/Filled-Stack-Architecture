@@ -48,13 +48,9 @@ class _ProductViewState extends State<ProductView> {
                         itemBuilder: (ctx, index) {
                           int prodId = model.getProductList[index].productId;
                           return ProductListItem(
-                            title: model.getProductList[index].productName,
-                            prodId: prodId,
+                           productData: model.getProductList[index],
                             nextScreenProduct:
                                 model.navigateToAddEditProductwithArgs,
-                            description:
-                                model.getProductList[index].productDescription,
-                            imageUrl: model.getProductList[index].productImage,
                             deleteProduct: model.deleteProductByProductId,
                           );
                         },

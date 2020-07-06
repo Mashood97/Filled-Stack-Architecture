@@ -43,7 +43,6 @@ class ProductViewModel extends BaseViewModel {
           loadedProduct.add(
             Product(
               productId: x['productId'],
-              // yahan print kr ke check kr is ki type
               productName: x['productName'],
               productDescription: x['productDescription'],
               productImage: find,
@@ -85,8 +84,6 @@ class ProductViewModel extends BaseViewModel {
     }
 //    notifyListeners();
   }
-
-
 
   void navigateToAddEditProduct() async {
     await _navigationService.navigateTo(Routes.addEditProductViewRoute);

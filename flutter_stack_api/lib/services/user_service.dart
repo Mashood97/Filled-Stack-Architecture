@@ -10,8 +10,6 @@ class UserService {
     try {
       final response = await http.get(CommonAPI.getAllusers);
       final responseData = json.decode(response.body) as Map<String, dynamic>;
-//
-
       return responseData;
     } catch (e) {
       throw e;
