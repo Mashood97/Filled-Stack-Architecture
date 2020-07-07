@@ -116,7 +116,9 @@ class _SignInViewState extends State<SignInView> {
                                     .headline4
                                     .copyWith(fontSize: 16),
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                model.navigateToSignup();
+                              },
                             ),
                           )
                         ],

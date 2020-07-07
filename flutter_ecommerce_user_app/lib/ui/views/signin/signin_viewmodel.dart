@@ -31,6 +31,7 @@ class SignInViewModel extends BaseViewModel {
             userType: responseData['userType'],
             userName: responseData['userName'],
             userEmail: responseData['userEmail'],
+            userNumber: responseData['userNumber'],
             userDOB: responseData['userDOB'],
             createdDateTime: responseData['createdDateTime'],
           ),
@@ -64,4 +65,9 @@ class SignInViewModel extends BaseViewModel {
   void navigateToHome() async {
     await _navigationService.replaceWith(Routes.homeView);
   }
+  void navigateToSignup()async{
+    await _navigationService.navigateTo(Routes.signUpView);
+
+  }
+
 }
