@@ -89,6 +89,7 @@ class _StartUState extends State<StartUpView>
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<StartUpViewModel>.reactive(
+        onModelReady: (model) => model.checkFirstSeen(),
         builder: (ctx, model, child) => Scaffold(
               body: IntroductionScreen(
                 dotsDecorator: DotsDecorator(

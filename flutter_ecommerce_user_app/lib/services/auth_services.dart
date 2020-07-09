@@ -3,10 +3,10 @@ import 'dart:convert';
 import 'package:flutterecommerceuserapp/helpers/common_api.dart';
 import 'package:flutterecommerceuserapp/model/user_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutterecommerceuserapp/helpers/shared_preferences.dart';
 
 class AuthService {
   String _datetime = DateTime.now().toString();
-
 
   String _userId;
   String _userName;
@@ -53,8 +53,6 @@ class AuthService {
 
   String get getUserType => _userType;
 
-
-
   Future signInUser(String email, password) async {
     try {
       final response = await http.post(
@@ -90,5 +88,33 @@ class AuthService {
     } catch (e) {
       throw e;
     }
+  }
+
+// 'userId': user.userId,
+//            'userEmail': user.userEmail,
+//            'userName': user.userName,
+//            'userType': user.userType,
+//            'userNumber': user.userNumber,
+//            'userDOB': user.userDOB,
+
+  Future<bool> autoLogin() async {
+    await SharedPref.init();
+    String abc = SharedPref.getAuthData();
+    // if (abc == null || abc.isEmpty) {
+    //   return false;
+    // }
+    final extractedData = json.decode(abc) as Map<String, Object>;
+    if (extractedData == null || extractedData.isEmpty) {
+      return false;
+    }
+
+    _userId = extractedData['userId'].toString();
+    _userName = extractedData['userName'];
+    _userEmail = extractedData['userEmail'];
+    _userNumber = extractedData['userNumber'];
+    _userDOB = extractedData['userDOB'];
+    _userType = extractedData['userType'];
+
+    return true;
   }
 }
