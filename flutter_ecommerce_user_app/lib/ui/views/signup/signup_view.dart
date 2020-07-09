@@ -164,8 +164,8 @@ class _SignUpViewState extends State<SignUpView> {
                         shape: StadiumBorder(),
                         splashColor: Theme.of(context).primaryColor,
                         color: Theme.of(context).accentColor,
-                        onPressed: () {
-                          model.signUpUser(
+                        onPressed: () async{
+                          await model.signUpUser(
                             User(
                               userEmail: _emailController.text.toString(),
                               userName: _userNameController.text.toString(),
@@ -175,6 +175,7 @@ class _SignUpViewState extends State<SignUpView> {
                               password: _passwordController.text.toString(),
                             ),
                           );
+
                         },
                         child: Text(
                           'Register',

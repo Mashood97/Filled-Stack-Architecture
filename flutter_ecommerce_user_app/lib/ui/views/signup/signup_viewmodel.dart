@@ -17,42 +17,54 @@ class SignUpViewModel extends BaseViewModel {
   Future signUpUser(User user) async {
     try {
       setBusy(true);
-      final response =
-          await _authService.signUpUser(user) as Map<String, dynamic>;
+      final response = await _authService.signUpUser(user);
       setBusy(false);
-
       final responseMessage = response['data']['message'];
       final responseData = response['data']['userData'];
-      if (responseMessage == 'Success') {
-        _authService.setUserId(responseData['userId']);
-        _authService.setUserEmail(responseData['Email']);
-        _authService.setUserDOB(responseData['DateOfBirth']);
-        _authService.setUserName(responseData['UserName']);
-        _authService.setuserNumber(responseData['PhoneNumber']);
-        _authService.setUserType(responseData['userType']);
-        notifyListeners();
-        final userData = json.encode({
-          'userId': _authService.getuserId,
-          'userEmail': _authService.getEmail,
-          'userName': _authService.getusername,
-          'userType': _authService.getUserType,
-          'userNumber': _authService.getNumber,
-          'userDOB': _authService.getUserDOB,
-        });
-        await SharedPref.init();
-        await SharedPref.setAuthdata(userData);
+      if (response is Map<String, dynamic>) {
+        if (responseMessage == 'Success') {
+//          _authService.setUserId(responseData['userId']);
+//          _authService.setUserEmail(responseData['Email']);
+//          _authService.setUserDOB(responseData['DateOfBirth']);
+//          _authService.setUserName(responseData['UserName']);
+//          _authService.setuserNumber(responseData['PhoneNumber']);
+//          _authService.setUserType(responseData['userType']);
+          user = User(
+              userDOB: responseData['DateOfBirth'],
+              userEmail: responseData['Email'],
+              userName: responseData['UserName'],
+              userType: responseData['userType'],
+              userNumber: responseData['PhoneNumber'],
+              userId: responseData['userId']);
+          notifyListeners();
+          final userData = json.encode({
+            'userId': user.userId,
+            'userEmail': user.userEmail,
+            'userName': user.userName,
+            'userType': user.userType,
+            'userNumber': user.userNumber,
+            'userDOB': user.userDOB,
+          });
+          await SharedPref.init();
+          SharedPref.setAuthdata(userData);
 
-        navigateToHome();
+          navigateToHome();
+        } else {
+          await _dialogService.showDialog(
+            title: 'ERROR',
+            description: responseMessage,
+            buttonTitle: 'OK',
+            barrierDismissible: false,
+            dialogPlatform: Platform.isAndroid
+                ? DialogPlatform.Material
+                : DialogPlatform.Cupertino,
+          );
+        }
       } else {
         await _dialogService.showDialog(
-          title: 'ERROR',
-          description: responseMessage,
-          buttonTitle: 'OK',
-          barrierDismissible: false,
-          dialogPlatform: Platform.isAndroid
-              ? DialogPlatform.Material
-              : DialogPlatform.Cupertino,
-        );
+            title: 'Error Occured',
+            description: responseMessage,
+            buttonTitle: 'OK');
       }
     } catch (e) {
       await _dialogService.showDialog(
@@ -72,6 +84,6 @@ class SignUpViewModel extends BaseViewModel {
   }
 
   void navigateToHome() async {
-    await _navigationService.replaceWith(Routes.homeView);
+    await _navigationService.clearStackAndShow(Routes.homeView);
   }
 }
