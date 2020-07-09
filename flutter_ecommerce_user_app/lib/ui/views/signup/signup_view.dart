@@ -286,7 +286,7 @@ class _SignUpViewState extends State<SignUpView> {
     );
   }
 
-  Widget getIOSDesign(var model) {
+  Widget _getIOSDesign(var model) {
     return CupertinoPageScaffold(
       child: SafeArea(
         child: Center(
@@ -354,7 +354,7 @@ class _SignUpViewState extends State<SignUpView> {
                     focusnode: _numberFocusNode,
                     inputType: TextInputType.number,
                     maxLength: 30,
-                    inputAction: TextInputAction.next,
+                    inputAction: TextInputAction.done,
                     titleLabel: 'Enter your Phone Number',
                     iconData: CupertinoIcons.phone_solid,
                     maxLines: 1,
@@ -395,7 +395,8 @@ class _SignUpViewState extends State<SignUpView> {
                               User(
                                 userEmail: _emailController.text.toString(),
                                 userName: _userNameController.text.toString(),
-                                userNumber: _userNumberController.text.toString(),
+                                userNumber:
+                                    _userNumberController.text.toString(),
                                 userType: 'user',
                                 userDOB: _selectedDate.toString(),
                                 password: _passwordController.text.toString(),
@@ -444,7 +445,8 @@ class _SignUpViewState extends State<SignUpView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SignUpViewModel>.reactive(
-      builder: (ctx, model, child) => getIOSDesign(model),
+      builder: (ctx, model, child) =>
+          Platform.isIOS ? _getIOSDesign(model) : _getAndroidDesign(model),
       viewModelBuilder: () => SignUpViewModel(),
     );
   }

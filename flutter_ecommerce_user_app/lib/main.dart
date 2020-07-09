@@ -11,11 +11,7 @@ import 'package:stacked_services/stacked_services.dart';
 
 void main() {
   setupLocator();
-  runApp(
-    DevicePreview(
-      usePreferences: true,
-      builder: (context) => MyApp(),
-    ),
+  runApp(MyApp(),
   );
 }
 
@@ -25,9 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? MaterialApp(
-            locale: DevicePreview.of(context).locale,
-            // <--- Add the locale
-            builder: DevicePreview.appBuilder,
+
             title: 'Khareed-Lo',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
@@ -55,9 +49,6 @@ class MyApp extends StatelessWidget {
             navigatorKey: locator<NavigationService>().navigatorKey,
           )
         : CupertinoApp(
-            locale: DevicePreview.of(context).locale,
-            // <--- Add the locale
-            builder: DevicePreview.appBuilder,
             theme: CupertinoThemeData(
               textTheme: CupertinoTextThemeData(
                 textStyle: GoogleFonts.oswald(

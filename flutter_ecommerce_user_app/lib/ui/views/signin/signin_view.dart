@@ -233,7 +233,8 @@ class _SignInViewState extends State<SignInView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<SignInViewModel>.reactive(
-        builder: (ctx, model, child) => _getIosDesign(model),
+        builder: (ctx, model, child) =>
+            Platform.isIOS ? _getIosDesign(model) : _getAndroidDesign(model),
         viewModelBuilder: () => SignInViewModel());
   }
 }

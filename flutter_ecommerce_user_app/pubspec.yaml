@@ -45,6 +45,7 @@ dependencies:
   injectable:
   introduction_screen: ^1.0.9
   intl:
+  carousel_pro: ^1.0.0
 
 
 dev_dependencies:
