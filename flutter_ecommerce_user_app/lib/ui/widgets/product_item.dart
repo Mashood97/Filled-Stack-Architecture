@@ -16,7 +16,7 @@ class ProductItem extends StatelessWidget {
           image: NetworkImage(products.productImage
               .toString()
               .replaceAll(r'uploads\', 'http://192.168.1.105:3000/')),
-          fit: BoxFit.cover,
+            fit: BoxFit.cover,
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,

@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
                   ConnectionState.waiting
               ? Center(child: CircularProgressIndicator())
               : RefreshIndicator(
-                  onRefresh: ()=>model.getRefreshedData(),
+                  onRefresh: () => model.getRefreshedData(),
                   child: CustomScrollView(
                     slivers: [
                       SliverAppBar(
