@@ -7,6 +7,7 @@
 import 'package:flutterecommerceuserapp/services/register_all_services.dart';
 import 'package:flutterecommerceuserapp/services/auth_services.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:flutterecommerceuserapp/services/product_service.dart';
 import 'package:get_it/get_it.dart';
 
 void $initGetIt(GetIt g, {String environment}) {
@@ -16,6 +17,8 @@ void $initGetIt(GetIt g, {String environment}) {
       () => registerAllServices.dialogService);
   g.registerLazySingleton<NavigationService>(
       () => registerAllServices.navigationService);
+  g.registerLazySingleton<ProductService>(
+      () => registerAllServices.productService);
 }
 
 class _$RegisterAllServices extends RegisterAllServices {
@@ -25,4 +28,6 @@ class _$RegisterAllServices extends RegisterAllServices {
   DialogService get dialogService => DialogService();
   @override
   NavigationService get navigationService => NavigationService();
+  @override
+  ProductService get productService => ProductService();
 }

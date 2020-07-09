@@ -1,3 +1,4 @@
+import 'package:flutterecommerceuserapp/services/product_service.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -13,4 +14,7 @@ abstract class RegisterAllServices {
 
   @lazySingleton
   AuthService get authService;
+  @lazySingleton
+  ProductService get productService;
 }
+//flutter pub run build_runner build
