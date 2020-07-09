@@ -56,6 +56,13 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.exit_to_app),
+        onPressed: () {
+          model.logoutUser();
+        },
+      ),
     );
   }
 

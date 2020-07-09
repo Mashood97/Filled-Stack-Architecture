@@ -50,6 +50,9 @@ class MyApp extends StatelessWidget {
           )
         : CupertinoApp(
             theme: CupertinoThemeData(
+              primaryColor: Colors.deepOrangeAccent,
+             scaffoldBackgroundColor: Colors.white,
+              barBackgroundColor: Colors.deepPurpleAccent,
               textTheme: CupertinoTextThemeData(
                 textStyle: GoogleFonts.oswald(
                   color: Colors.white,
