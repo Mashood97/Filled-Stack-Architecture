@@ -90,13 +90,6 @@ class AuthService {
     }
   }
 
-// 'userId': user.userId,
-//            'userEmail': user.userEmail,
-//            'userName': user.userName,
-//            'userType': user.userType,
-//            'userNumber': user.userNumber,
-//            'userDOB': user.userDOB,
-
   Future<bool> autoLogin() async {
     await SharedPref.init();
     String abc = SharedPref.getAuthData();
@@ -115,6 +108,19 @@ class AuthService {
     _userDOB = extractedData['userDOB'];
     _userType = extractedData['userType'];
 
+    return true;
+  }
+
+  Future logoutUser() async {
+    await SharedPref.init();
+    SharedPref.clearSharedPrefData();
+    _userId = null;
+    _userName = null;
+    _userEmail = null;
+    _userNumber = null;
+    _userDOB = null;
+    _userType = null;
+    _datetime = null;
     return true;
   }
 }

@@ -79,6 +79,15 @@ class SignUpViewModel extends BaseViewModel {
     }
   }
 
+  void showDialog(String title,String description,String buttonTitle,DialogPlatform platform)async{
+    await _dialogService.showDialog(
+      title: title,
+      description: description,
+      dialogPlatform: platform,
+      buttonTitle: buttonTitle
+    );
+  }
+
   void navigateToLogin() async {
     await _navigationService.navigateTo(Routes.signInView);
   }

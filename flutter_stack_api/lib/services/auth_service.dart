@@ -142,16 +142,16 @@ class AuthService {
   }
 
 //
-  Future logoutUser() async {
-    await SharedPref.init();
-    SharedPref.clearSharedPrefData();
-    _userId = null;
-    _userName = null;
-    _userEmail = null;
-    _userNumber = null;
-    _userDOB = null;
-    _userType = null;
-    dateTime = null;
-    return true;
-  }
+    Future logoutUser() async {
+      await SharedPref.init();
+      SharedPref.clearSharedPrefData();
+      _userId = null;
+      _userName = null;
+      _userEmail = null;
+      _userNumber = null;
+      _userDOB = null;
+      _userType = null;
+      dateTime = null;
+      return true;
+    }
 }

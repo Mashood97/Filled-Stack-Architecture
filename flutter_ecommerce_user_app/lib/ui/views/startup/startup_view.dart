@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterecommerceuserapp/ui/views/startup/startup_viewmodel.dart';
@@ -100,37 +102,67 @@ class _StartUState extends State<StartUpView>
                   color: _animation.value,
                   activeColor: Theme.of(context).accentColor,
                 ),
-                done: FlatButton(
-                  color: _animation.value,
-                  textColor: Colors.white,
-                  shape: StadiumBorder(),
-                  splashColor: Theme.of(context).accentColor,
-                  child: FittedBox(
-                      child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.explore,
-                        color: Colors.amber,
-                        size: 45,
+                done: Platform.isAndroid
+                    ? FlatButton(
+                        color: _animation.value,
+                        textColor: Colors.white,
+                        shape: StadiumBorder(),
+                        splashColor: Theme.of(context).accentColor,
+                        child: FittedBox(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.explore,
+                                color: Colors.amber,
+                                size: 45,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Explore",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    .copyWith(fontSize: 22),
+                              ),
+                            ],
+                          ),
+                        ),
+                        onPressed: () {
+                          model.gotoSignIn();
+                        },
+                      )
+                    : CupertinoButton(
+                        onPressed: () => model.gotoSignIn(),
+                        child: FittedBox(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Icon(
+                                Icons.explore,
+                                color: Colors.amber,
+                                size: 45,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Explore",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headline6
+                                    .copyWith(fontSize: 22),
+                              ),
+                            ],
+                          ),
+                        ),
+                        borderRadius: BorderRadius.circular(15),
+                        color: _animation.value,
                       ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        "Explore",
-                        style: Theme.of(context)
-                            .textTheme
-                            .headline6
-                            .copyWith(fontSize: 22),
-                      ),
-                    ],
-                  )),
-                  onPressed: () {
-                    model.gotoSignIn();
-                  },
-                ),
                 onDone: () {
                   model.gotoSignIn();
                 },
