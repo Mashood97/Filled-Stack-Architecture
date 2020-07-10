@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutterecommerceuserapp/app/locator.dart';
 import 'package:flutterecommerceuserapp/app/router.gr.dart';
 import 'package:flutterecommerceuserapp/services/auth_services.dart';
@@ -24,8 +26,12 @@ class StartUpViewModel extends BaseViewModel {
     bool _seen = (prefs.getBool('seen') ?? false);
 
     if (_seen) {
-      var d = handleAutoLogin();
-      return d;
+      bool a = await _authService.autoLogin();
+      if (a) {
+        return _navigationService.replaceWith(Routes.homeView);
+      } else {
+        return _navigationService.replaceWith(Routes.signInView);
+      }
     } else {
       await prefs.setBool('seen', true);
       return _navigationService.replaceWith(Routes.startUpView);

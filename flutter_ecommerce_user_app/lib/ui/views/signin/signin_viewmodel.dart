@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutterecommerceuserapp/app/locator.dart';
 import 'package:flutterecommerceuserapp/app/router.gr.dart';
+import 'package:flutterecommerceuserapp/helpers/shared_preferences.dart';
 import 'package:flutterecommerceuserapp/model/user_model.dart';
 import 'package:flutterecommerceuserapp/services/auth_services.dart';
 import 'package:stacked/stacked.dart';
@@ -16,6 +18,10 @@ class SignInViewModel extends BaseViewModel {
   List<User> get getUserList => [..._userList];
 
   int get getUserlistLength => _userList.length;
+
+
+
+
 
   Future signInUser(String email, String password) async {
     try {
@@ -37,6 +43,17 @@ class SignInViewModel extends BaseViewModel {
           ),
         );
           _userList = _loadedUser;
+        final userData = json.encode({
+          'userId': responseData['userId'],
+          'userEmail': responseData['userEmail'],
+          'userName':  responseData['userName'],
+          'userType': responseData['userType'],
+          'userNumber': responseData['userNumber'],
+          'userDOB': responseData['userDOB'],
+        });
+        await SharedPref.init();
+        SharedPref.setAuthdata(userData);
+
         navigateToHome();
       } else {
         await _dialogService.showDialog(
